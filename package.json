@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:verbose": "jest --verbose",
+    "test": "node node_modules/jest/bin/jest.js",
+    "test:watch": "node node_modules/jest/bin/jest.js --watch",
+    "test:verbose": "node node_modules/jest/bin/jest.js --verbose",
     "dev": "ts-node src/index.ts",
     "lint": "tsc --noEmit --strict && echo '✅ TypeScript compilation and strict checks passed'",
     "lint:fix": "npm run lint",
