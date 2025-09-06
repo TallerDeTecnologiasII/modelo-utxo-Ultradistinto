@@ -33,8 +33,8 @@ export class TransactionValidator {
 				'Empty amount of outputs' )
 			);
 		}
-			
-		const utxosUsados = new UTXOPoolManager();
+
+		const usedUtxos = new UTXOPoolManager();
 
 		for(const input of transaction.inputs){
 			const anUTXO = this.utxoPool.getUTXO(input.utxoId.txId, input.utxoId.outputIndex);
@@ -45,9 +45,9 @@ export class TransactionValidator {
 				);
 			}
 			if(anUTXO){
-				const existe = utxosUsados.getUTXO(input.utxoId.txId, input.utxoId.outputIndex);
+				const existe = usedUtxos.getUTXO(input.utxoId.txId, input.utxoId.outputIndex);
 				if(!existe){
-					utxosUsados.addUTXO(anUTXO);	
+					usedUtxos.addUTXO(anUTXO);	
 				}else{
 					errors.push(createValidationError(
 						VALIDATION_ERRORS.DOUBLE_SPENDING,
@@ -63,12 +63,7 @@ export class TransactionValidator {
 						'The signature was invalid ${input.signature}')	
 					);
 				}
-
-
-				if(anUTXO){
-					inputAmount += anUTXO.amount;
-				}
-
+				inputAmount += anUTXO.amount;
 			}
 		}
 
@@ -88,10 +83,6 @@ export class TransactionValidator {
 				'The input and output amounts dont match' )
 			);
 		}
-
-
-		// STUDENT ASSIGNMENT: Implement the validation logic above
-		// Remove this line and implement the actual validation
 
 		return {
 			valid: errors.length === 0,
